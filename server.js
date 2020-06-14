@@ -2,12 +2,7 @@ const express = require('express');
 const app = express();
 
 app.use(express.json());
-
-const genres = [
-    { id: 1, genre: 'Science Fiction' },
-    { id: 2, genre: 'Fantasy' },
-    { id: 3, genre: 'Thriller' },
-];
+const genres = require('./data.js');
 
 app.get('/api/genres', (request, response) => {
     response.send(genres);
@@ -57,7 +52,6 @@ app.put('/api/genres/:id', (request, response) => {
 });
 
 function isValidGenreName(name) {
-    console.log(name);
     if (!name || name.length < 3) {
         return false;
     }
