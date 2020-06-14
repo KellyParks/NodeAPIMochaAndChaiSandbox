@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+app.use(express.json());
+
 const genres = [
     { id: 1, genre: 'Science Fiction' },
     { id: 2, genre: 'Fantasy' },
@@ -19,13 +21,13 @@ app.get('/api/genres/:id', (request, response) => {
         return response.status(404).send('The genre for the passed ID was not found.');
     }
 
-    response.send(genre);
+    response.send(existingGenre);
 });
 
 app.post('/api/genres', (request, response) => {
-    const error = isValidGenreName(request.body);
+    const isValid = isValidGenreName(request.body.name);
 
-    if (error) {
+    if (!isValid) {
         return response.status(400).send("Invalid genre name.");
     }
   
@@ -44,30 +46,18 @@ app.put('/api/genres/:id', (request, response) => {
     if (!existingGenre) {
         return response.status(404).send('The genre for the passed ID was not found.');
     }
-  
-    const error = validateGenre(request.body.name); 
-    if (error) {
+    
+    const isValid = isValidGenreName(request.body.name); 
+    if (!isValid) {
         return response.status(400).send("Invalid genre name.");
     }
     
-    genre.name = request.body.name; 
-    response.send(genre);
-});
-
-
-app.get('/api/courses', (request, response) => {
-    response.send(courses);
-});
-
-app.get('/api/courses/:id', (request, response) => {
-    course = courses.find(c => c.id === parseInt(request.params.id));
-    if(!course){
-        response.status(404).send('The id was not found');
-    }
-    response.send(course);
+    existingGenre.genre = request.body.name; 
+    response.send(existingGenre);
 });
 
 function isValidGenreName(name) {
+    console.log(name);
     if (!name || name.length < 3) {
         return false;
     }
@@ -75,9 +65,7 @@ function isValidGenreName(name) {
 }
 
 function findGenre(genreId) {
-    return genres.find((c) => {
-        c.id === parseInt(genreId);
-    });
+    return genres.find(c => c.id === parseInt(genreId));
 }
 
 /* 
@@ -97,3 +85,5 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
+
+module.exports = app;
