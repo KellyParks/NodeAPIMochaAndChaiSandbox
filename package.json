@@ -1,0 +1,14 @@
+{
+  "name": "mosh-vidlyapp",
+  "version": "1.0.0",
+  "description": "This app is meant as a sandbox to get more familiar with Node.js, but with a focus on learning the testing frameworks.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
