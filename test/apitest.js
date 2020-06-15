@@ -4,15 +4,18 @@ chai.use(chaiHttp);
 const should = chai.should();
 const expect = chai.expect;
 const server = require('../server');
-const data = require('../data');
+let data = require('../data');
 
 describe('API tests', () => {
+    let initialExpectedGenres = [];
 
-    const initialExpectedGenres = [
-        { id: 1, genre: 'Science Fiction' },
-        { id: 2, genre: 'Fantasy' },
-        { id: 3, genre: 'Thriller' },
-    ];
+    /* Runs before each test. done() needs to be called or it will timeout.
+    I'm saving the original data so that I set it back to it's original state 
+    after each test case. It's a bit of a contrived use case for the before/after hooks.*/
+    beforeEach((done) => {
+        initialExpectedGenres = data;
+        done();
+    });
 
     describe('GET requests', () => {
 
@@ -81,9 +84,14 @@ describe('API tests', () => {
                     id: 4,
                     genre: "Period Drama"
                 });
-                console.log(data);
                 done();
             });
         });
     });
+
+    /* Clean up runs after each test case in the parent describe block.*/
+    afterEach((done) => {
+        data = initialExpectedGenres;
+        done();
+    });    
 });

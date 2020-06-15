@@ -20,7 +20,7 @@ app.get('/api/genres/:id', (request, response) => {
 });
 
 app.post('/api/genres', (request, response) => {
-    const isValid = isValidGenreName(request.body.name);
+    const isValid = isValidGenreName(request.body.genre);
 
     if (!isValid) {
         return response.status(400).send("Invalid genre name.");
@@ -28,7 +28,7 @@ app.post('/api/genres', (request, response) => {
   
     const genre = {
       id: genres.length + 1,
-      name: request.body.name,
+      genre: request.body.genre,
     };
 
     genres.push(genre);
